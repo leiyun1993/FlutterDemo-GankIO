@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
 class MeiZiItem extends StatefulWidget {
+
+  MeiZiItem(this.url);
+
+  String url;
+
   @override
   _MeiZiItemState createState() {
     return _MeiZiItemState();
@@ -8,6 +13,9 @@ class MeiZiItem extends StatefulWidget {
 }
 
 class _MeiZiItemState extends State<MeiZiItem> {
+
+  _MeiZiItemState();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,7 +29,7 @@ class _MeiZiItemState extends State<MeiZiItem> {
           children: <Widget>[
             Container(
               child: Image.network(
-                "http://ww1.sinaimg.cn/large/0065oQSqly1g2pquqlp0nj30n00yiq8u.jpg",
+                widget.url,
                 fit: BoxFit.cover,
               ),
               constraints: BoxConstraints.expand(),
