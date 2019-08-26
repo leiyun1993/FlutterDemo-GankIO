@@ -12,3 +12,5 @@
 
 [Flutter笔记(六)：StaggeredGridView瀑布流+下拉刷新和加载更多](https://www.jianshu.com/p/4da555e7e4c3)
 
+[Flutter笔记(七)：Dio网络请求、Json数据解析以及泛型问题](https://www.jianshu.com/p/3c50812865d1)
+
