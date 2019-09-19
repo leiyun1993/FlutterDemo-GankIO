@@ -15,6 +15,7 @@ class _MeiZiPageState extends State<MeiZiPage> {
   var _scrollController = new ScrollController(initialScrollOffset: 0);
   var _imageList = [];
   var _load = 0;
+  int _page = 0;
 
   @override
   void initState() {
@@ -27,18 +28,28 @@ class _MeiZiPageState extends State<MeiZiPage> {
       }
     });
 
-    _initData();
+    _initData(_page);
   }
 
-void _initData() async {
-  var map = Map();
-  map["size"] = 10;
-  map["page"] = 1;
-  var res = await HttpUtils.get("/data/福利/:size/:page", map);
-  setState(() {
-    _imageList = BaseBeanEntity.fromJsonList(res).getList<MeiZiEntity>(); //results为数组
-  });
-}
+  Future<void> _initData(int page) async {
+    var map = Map();
+    map["size"] = 10;
+    map["page"] = page;
+    var res = await HttpUtils.get("/data/福利/:size/:page", map);
+    var newList = BaseBeanEntity.fromJsonList(res).getList<MeiZiEntity>();
+    setState(() {
+      if (page == 1) {
+        _imageList.clear();
+      }
+      _imageList.addAll(newList); //results为数组
+      if (newList == null || newList.length == 0) {
+        _load = 3;
+      } else {
+        _load = 0;
+      }
+      _page++;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,10 +71,10 @@ void _initData() async {
                 itemCount: _imageList.length,
                 itemBuilder: (BuildContext context, int index) {
                   MeiZiEntity item = _imageList[index];
-                  return MeiZiItem(item.url);
+                  return MeiZiItem(item);
                 },
                 staggeredTileBuilder: (int index) =>
-                    new StaggeredTile.count(2, index == 0 ? 2.5 : 3),
+                    new StaggeredTile.count(2, index == 0 ? 1.5 : 2),
                 mainAxisSpacing: 8.0,
                 crossAxisSpacing: 8.0,
               ),
@@ -103,19 +114,20 @@ void _initData() async {
   }
 
   Future<void> _onRefresh() async {
-    _initData();
+    setState(() {
+      _page = 1;
+      _load = 1;
+    });
+    await _initData(_page);
     print("_onRefresh");
   }
 
   Future<void> _onLoadMore() async {
+    if (_load == 3) return;
     setState(() {
       _load = 2;
     });
-    await await Future.delayed(Duration(milliseconds: 1500));
-    setState(() {
-      _imageList = [];
-      _load = 0;
-    });
+    await _initData(_page);
     print("_onLoadMore");
   }
 }

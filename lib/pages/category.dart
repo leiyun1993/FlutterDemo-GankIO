@@ -6,14 +6,21 @@ class CategoryPage extends StatefulWidget {
   _CategoryState createState() => _CategoryState();
 }
 
-class _CategoryState extends State<CategoryPage> {
-  var _tabList = ["All", "Android", "iOS", "Web"];
-  var _tabController;
+class _CategoryState extends State<CategoryPage> with SingleTickerProviderStateMixin {
+  var _tabList = ["all", "Android", "iOS", "App","前端","拓展资源","瞎推荐","休息视频"];
+  TabController _tabController;
+
 
   @override
   void initState() {
     super.initState();
-    _tabController = DefaultTabController.of(context);
+    _tabController = TabController(initialIndex: 0,length: _tabList.length,vsync: this);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _tabController.dispose();
   }
 
   @override
@@ -32,17 +39,24 @@ class _CategoryState extends State<CategoryPage> {
               bottom: TabBar(
                 controller: _tabController,
                 indicatorSize: TabBarIndicatorSize.label,
+                isScrollable: true,
+                onTap: _onTabBarTap,
                 tabs: _tabList.map((item) {
                   return Tab(text: item);
                 }).toList(),
               ),
             ),
             body: TabBarView(
+              controller: _tabController,
               children: _tabList.map((item) {
                 return Center(
-                  child: ArticleList(),
+                  child: ArticleList(item),
                 );
               }).toList(),
             )));
+  }
+
+  void _onTabBarTap(int value) {
+
   }
 }

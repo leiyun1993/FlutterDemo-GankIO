@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gank_flutter/icons/iconfont.dart';
+import 'package:gank_flutter/model/article_entity.dart';
 
 class ArticleItem extends StatefulWidget {
+  final ArticleEntity item;
+
+  ArticleItem(this.item);
 
   @override
   _ArticleItemState createState() {
@@ -25,7 +29,7 @@ class _ArticleItemState extends State<ArticleItem> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "Flutter demo item title label!Flutter demo item title label!Flutter demo item title label!Flutter demo item title label!Flutter demo item title label!",
+                        widget.item.desc,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -40,7 +44,7 @@ class _ArticleItemState extends State<ArticleItem> {
                           color: Colors.green,
                           size: 20,
                         ),
-                        Text("testUser"),
+                        Text(widget.item.who),
                         Container(
                           width: 10,
                         ),
@@ -49,7 +53,7 @@ class _ArticleItemState extends State<ArticleItem> {
                           color: Colors.green,
                           size: 20,
                         ),
-                        Text("2019-8-20"),
+                        Text(widget.item.createdAt.substring(0, 10)),
                       ],
                     )
                   ],
@@ -59,17 +63,21 @@ class _ArticleItemState extends State<ArticleItem> {
             Container(
               width: 15,
             ),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(4),
-              child: Image.network(
-                "https://hbimg.huabanimg.com/a9d10755cdf6fef52d529a807810c937dd4c70552bb46-sAwWOc_fw658",
-                alignment: Alignment.centerRight,
-                width: 80,
-                height: 80,
+            Offstage(
+              offstage: widget.item.images==null||widget.item.images.length==0,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(4),
+                child: Image.network(
+                  widget.item.images!=null&&widget.item.images.length>0?widget.item.images[0]:"https://hbimg.huabanimg.com/fa7be73547c402acc9c7a1e8717cba4d87a487c51adaa-4aL4RO_fw658",
+                  alignment: Alignment.centerRight,
+                  width: 80,
+                  height: 80,
+                  fit: BoxFit.cover,
+                ),
               ),
             )
           ],
-        ));;
+        ));
+    ;
   }
 }
-

@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gank_flutter/pages/about.dart';
 import 'package:gank_flutter/pages/account.dart';
 import 'package:gank_flutter/pages/category.dart';
 import 'package:gank_flutter/pages/home.dart';
 import 'package:gank_flutter/pages/meizi.dart';
+import 'package:gank_flutter/pages/other_gank.dart';
 import 'icons/iconfont.dart';
 
 void main() {
@@ -26,12 +28,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(primarySwatch: Colors.green, primaryColor: Colors.white),
-      //设置App主题
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      initialRoute: "/",
+      theme: ThemeData(primarySwatch: Colors.green, primaryColor: Colors.white),//设置App主题
+      routes: {
+        "/":(context)=>MyHomePage(),
+        "/about":(context)=>About(),
+        "/other":(context)=>OtherGank(),
+      },
     );
   }
-
 }
 
 class MyHomePage extends StatefulWidget {

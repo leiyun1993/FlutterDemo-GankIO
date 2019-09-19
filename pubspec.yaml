@@ -71,4 +71,5 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
   assets:
-    - images/
+    - images/user_center.png
+    - images/wave.gif
